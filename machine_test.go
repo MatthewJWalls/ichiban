@@ -6,7 +6,7 @@ import (
 
 func TestMachine(t *testing.T) {
 
-    m := NewMachine("192.168.1.1")
+	m := NewMachine("192.168.1.1")
 
 	if m.IP != "192.168.1.1" {
 		t.Error("IP was not correct.")

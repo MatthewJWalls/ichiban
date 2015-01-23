@@ -1,28 +1,28 @@
 package main
 
 type Machine struct {
-    IP string
-    Hostname string
-    Root *File
-    Processes []Process
-    Accounts map[string]Account
+	IP string
+	Hostname string
+	Root *File
+	Processes []Process
+	Accounts map[string]Account
 	Network *Machine
 }
 
 type Account struct {
-    Name string
-    Pass string
+	Name string
+	Pass string
 }
 
 type Process struct {
-    Name string
+	Name string
 }
 
 type File struct {
-    Name string
-    Directory bool
-    Owner string
-    Children []File
+	Name string
+	Directory bool
+	Owner string
+	Children []File
 }
 
 func (this *Machine) AddAccount(a Account) {
@@ -34,7 +34,7 @@ func (this *Machine) Attach(remote *Machine) {
 }
 
 func NewMachine(ip string) (*Machine) {
-    machine := Machine{}
+	machine := Machine{}
 	machine.IP = ip
 	machine.Hostname = "salmon.fillet.net"
 	machine.Accounts = make(map[string]Account)
