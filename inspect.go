@@ -151,9 +151,9 @@ func main() {
 
 			break
 
-		} else if tokens[0] == "use" {
+		} else if tokens[0] == "ssh" {
 
-			fmt.Printf("Now using %s\n", tokens[1])
+			fmt.Printf("Now connected to %s\n", tokens[1])
 			current = tokens[1]
 
 		} else if tokens[0] == "scan" {
@@ -187,6 +187,11 @@ func main() {
 
 			fmt.Printf("  ip: %s", m.IP)
 			fmt.Printf("  network attachments: %s", m.Network)
+
+		} else {
+
+
+			fmt.Printf("%s: command not found\n", tokens[0])
 
 		}
 
