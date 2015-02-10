@@ -64,32 +64,43 @@ func buildInternet() (*Machine, []*Machine) {
 
 }
 
-func pathBetween(m1 *Machine, m2 *Machine) []*Machine {
-
-	pathToRoot := func(m *Machine) []*Machine {
-
-		out := make([]*Machine, 0, 0)
-		out = append(out, m)
-		t := m
-		for t.Network != nil {
-			t = t.Network
-			out = append(out, t)
-		}
-		return out
+func PathToRoot(m *Machine) []*Machine {
+	out := make([]*Machine, 0, 0)
+	out = append(out, m)
+	t := m
+	for t.Network != nil {
+		t = t.Network
+		out = append(out, t)
 	}
+	return out
+}
 
-	m1path := pathToRoot(m1)
-	m2path := pathToRoot(m2)
+func PathBetween(m1 *Machine, m2 *Machine) []*Machine {
+
+	m1path := PathToRoot(m1)
+	m2path := PathToRoot(m2)
+
+	// find the 1st common ancestor
 
 	var ancestor *Machine
+
 	for _, m := range(m1path) {
+
 		for _, n := range(m2path) {
 			if m == n {
 				ancestor = m
 				break
 			}
 		}
+
+		if ancestor != nil {
+			break
+		}
+
 	}
+
+	// make the path between the two nodes via the
+	// common ancestor
 
 	outPath := make([]*Machine, 0, 0)
 
@@ -100,16 +111,17 @@ func pathBetween(m1 *Machine, m2 *Machine) []*Machine {
 		}
 	}
 
-	// bug: this needs to be reversed
+    durrPath := make([]*Machine, 0, 0)
 
-	for i := len(m2path)-1; i >= 0; i-- {
-		m := m2path[i]
+	for _, m := range(m2path) {
 		if m == ancestor {
 			break
 		} else {
-			outPath = append(outPath, m)
+			durrPath = append([]*Machine{m}, durrPath...)
 		}
 	}
+
+	outPath = append(outPath, durrPath...)
 
 	return outPath
 
@@ -169,7 +181,7 @@ func main() {
 		} else if tokens[0] == "trace" {
 
 			fmt.Printf("Path between %s and %s\n", current, tokens[1])
-			for _, m := range(pathBetween(find(index, current), find(index, tokens[1]))){
+			for _, m := range(PathBetween(find(index, current), find(index, tokens[1]))){
 				fmt.Println(m.IP)
 			}
 
